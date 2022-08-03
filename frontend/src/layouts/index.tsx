@@ -1,17 +1,28 @@
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import { Outlet } from 'react-router-dom';
 
 import GlobalNavigation from '@/layouts/GlobalNavigation';
 
 const Layouts = () => {
   return (
-    <div>
+    <Container maxWidth="sm">
       <nav>
         <GlobalNavigation />
       </nav>
-      <main>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          direction: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: '3rem',
+        }}
+      >
         <Outlet />
-      </main>
-    </div>
+      </Box>
+    </Container>
   );
 };
 

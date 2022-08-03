@@ -22,8 +22,8 @@ const GlobalNavigation = () => {
         centered
       >
         <Tab label="메인" to={ROUTE.MAIN} component={Link} />
-        <Tab label="회원가입" to={ROUTE.LOGIN} component={Link} />
-        <Tab label="로그인" to={ROUTE.SIGNUP} component={Link} />
+        <Tab label="로그인" to={ROUTE.LOGIN} component={Link} />
+        <Tab label="회원가입" to={ROUTE.SIGNUP} component={Link} />
       </Tabs>
     </ul>
   );
