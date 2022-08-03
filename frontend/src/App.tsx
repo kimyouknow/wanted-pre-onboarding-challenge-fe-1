@@ -1,18 +1,25 @@
-import { FormEvent } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Card from '@/components/Card';
-import ComplexForm from '@/components/ComplexForm';
-import LoginForm from '@/components/LoginForm';
+import { ROUTE } from '@/constant/route';
+import Layouts from '@/layouts';
+import Login from '@/pages/Login';
+import Main from '@/pages/Main';
+import NotFound from '@/pages/NotFound';
+import SignUp from '@/pages/Signup';
 
-export default function App() {
-  const handleSubmit = (event: FormEvent<HTMLElement>) => {
-    event.preventDefault();
-  };
+const App = () => {
   return (
-    <div>
-      <Card content="project" msg="start" />
-      <LoginForm handleSubmit={handleSubmit} />
-      <ComplexForm onSubmit={() => {}} onCancel={() => {}} />
-    </div>
+    <Router>
+      <Routes>
+        <Route path={ROUTE.MAIN} element={<Layouts />}>
+          <Route index element={<Main />} />
+          <Route path={ROUTE.LOGIN} element={<Login />} />
+          <Route path={ROUTE.SIGNUP} element={<SignUp />} />
+        </Route>
+        <Route path={ROUTE.FALLBACK} element={<NotFound />} />
+      </Routes>
+    </Router>
   );
-}
+};
+
+export default App;
