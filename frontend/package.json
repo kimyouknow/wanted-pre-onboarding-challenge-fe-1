@@ -1,5 +1,5 @@
 {
-  "name": "react-boiler-template",
+  "name": "wanted-pre-onboarding-challenge-fe-1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kimyouknow/react-boiler-template.git"
+    "url": "git+https://github.com/kimyouknow/wanted-pre-onboarding-challenge-fe-1.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kimyouknow/react-boiler-template/issues"
+    "url": "https://github.com/kimyouknow/wanted-pre-onboarding-challenge-fe-1/issues"
   },
-  "homepage": "https://github.com/kimyouknow/react-boiler-template#readme",
+  "homepage": "https://github.com/kimyouknow/wanted-pre-onboarding-challenge-fe-1#readme",
   "dependencies": {
     "@types/styled-components": "^5.1.25",
     "react": "^18.1.0",
