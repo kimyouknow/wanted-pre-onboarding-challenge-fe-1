@@ -1,21 +1,38 @@
+import { Tab, Tabs } from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTE } from '@/constant/route';
 
 const GlobalNavigation = () => {
+  const path = window.location.pathname;
+  const currentTab = ROUTER_INDEX[path];
+  const [activeTabIndex, setActiveTabIndex] = useState(currentTab);
+  const handleActiveTab = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
+    setActiveTabIndex(newValue);
+  };
+
   return (
     <ul>
-      <li>
-        <Link to={ROUTE.MAIN}>메인</Link>
-      </li>
-      <li>
-        <Link to={ROUTE.LOGIN}>로그인</Link>
-      </li>
-      <li>
-        <Link to={ROUTE.SIGNUP}>회원가입</Link>
-      </li>
+      <Tabs
+        value={activeTabIndex}
+        onChange={handleActiveTab}
+        indicatorColor="primary"
+        textColor="primary"
+        centered
+      >
+        <Tab label="메인" to={ROUTE.MAIN} component={Link} />
+        <Tab label="회원가입" to={ROUTE.LOGIN} component={Link} />
+        <Tab label="로그인" to={ROUTE.SIGNUP} component={Link} />
+      </Tabs>
     </ul>
   );
 };
 
 export default GlobalNavigation;
+
+const ROUTER_INDEX = {
+  [ROUTE.MAIN]: 0,
+  [ROUTE.LOGIN]: 1,
+  [ROUTE.SIGNUP]: 2,
+};
