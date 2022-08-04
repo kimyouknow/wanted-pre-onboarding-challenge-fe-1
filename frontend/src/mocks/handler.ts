@@ -1,11 +1,5 @@
-import { rest } from 'msw';
+import todoHandler from '@/mocks/todoHandler';
 
-const testers = [
-  rest.post('/test', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ test: 'test' }));
-  }),
-];
-
-const handlers = [...testers];
+const handlers = [...todoHandler];
 
 export default handlers;
