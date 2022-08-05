@@ -2,7 +2,7 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react';
 
 interface UseFormProps<ValidateProps> {
   initialValues: ValidateProps;
-  onSubmit: () => void;
+  onSubmit: (submitData: ValidateProps) => void;
   validate: (values: ValidateProps) => ValidateProps;
 }
 
@@ -26,11 +26,9 @@ const useForm = <ValidateProps>({
 
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
-    // if (Object.keys(errors).length === 0) {
-    //   onSubmit(values);
-    // }
+    if (!satisfyAllValidites) return; // TODO: api Error = true
     setIsLoading(true);
-    await onSubmit();
+    await onSubmit(inputValues);
     setIsLoading(false);
   };
 

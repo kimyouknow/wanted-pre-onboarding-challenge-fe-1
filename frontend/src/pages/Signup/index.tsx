@@ -2,12 +2,21 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import authApi from '@/api/auth';
 import StackColumn from '@/components/Common/StackColumn';
 import useForm from '@/hooks/useForm';
 import signUpValidate, { SignUpValidateProps } from '@/service/signUp.validation';
 
 const SignUp = () => {
-  const onSubmit = async () => {};
+  const onSubmit = async (submitData: SignUpValidateProps) => {
+    try {
+      const response = await authApi.signUp({ data: submitData });
+      console.log('response :>> ', response);
+      // TODO: 성공 메세지 보여주기
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const {
     inputValues,
     validateError,
@@ -22,7 +31,7 @@ const SignUp = () => {
   });
 
   return (
-    <Box component="form" autoComplete="off">
+    <Box component="form" autoComplete="off" onSubmit={submitHandler}>
       <StackColumn>
         <TextField
           id="outlined-basic"
