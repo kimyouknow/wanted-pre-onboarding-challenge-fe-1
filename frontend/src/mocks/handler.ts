@@ -1,6 +1,6 @@
+import authHandler from '@/mocks/authHandler';
 import todoHandler from '@/mocks/todoHandler';
-import userHandler from '@/mocks/userHandler';
 
-const handlers = [...todoHandler, ...userHandler];
+const handlers = [...todoHandler, ...authHandler];
 
 export default handlers;

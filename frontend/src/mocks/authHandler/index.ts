@@ -2,7 +2,7 @@ import { rest } from 'msw';
 
 import { API, API_URL } from '@/constant/api';
 
-import { signUpMessage, loginMessage } from './user.mock';
+import { signUpMessage, loginMessage } from './auth.mock';
 
 const todoHandler = [
   // 유저 회원가입
