@@ -4,7 +4,7 @@ import { ROUTE } from '@/constant/route';
 import Layouts from '@/layouts';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
-import SignUp from '@/pages/Signup';
+import SignUp from '@/pages/SignUp';
 import Todos from '@/pages/Todos';
 
 const App = () => {

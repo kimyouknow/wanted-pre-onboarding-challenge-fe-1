@@ -14,9 +14,12 @@
 
 ## 회원가입, 로그인 페이지
 
-- [ ] : form, input validation custom hooks만들기
-- [ ] : 조건을 만족할 때만 버튼 활성화
+회원가입 -> 로그인
+
+- [x] : form, input validation custom hooks만들기
+- [x] : 조건을 만족할 때만 버튼 활성화
 - [ ] : 테스트 코드 작성
+- [x] : api mocking연결
 
 ## 로그인 유지
 
