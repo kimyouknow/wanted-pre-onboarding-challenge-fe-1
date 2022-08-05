@@ -7,14 +7,19 @@ import useForm from '@/hooks/useForm';
 import signUpValidate, { SignUpValidateProps } from '@/service/signUp.validation';
 
 const SignUp = () => {
-  const { inputValues, validateError, isLoading, onChangeHandler, submitHandler } =
-    useForm<SignUpValidateProps>({
-      initialValues: { email: '', password: '' },
-      onSubmit: () => {},
-      validate: signUpValidate,
-    });
-
-  const acitivateSubmitButton = !!validateError.email || !!validateError.password;
+  const onSubmit = async () => {};
+  const {
+    inputValues,
+    validateError,
+    isLoading,
+    onChangeHandler,
+    submitHandler,
+    satisfyAllValidites,
+  } = useForm<SignUpValidateProps>({
+    initialValues: { email: '', password: '' },
+    onSubmit,
+    validate: signUpValidate,
+  });
 
   return (
     <Box component="form" autoComplete="off">
@@ -41,7 +46,7 @@ const SignUp = () => {
           error={!!validateError.password}
           helperText={validateError.password}
         />
-        <Button type="submit" variant="contained" disabled={acitivateSubmitButton}>
+        <Button type="submit" variant="contained" disabled={!satisfyAllValidites}>
           회원가입
         </Button>
       </StackColumn>

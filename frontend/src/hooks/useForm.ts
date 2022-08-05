@@ -16,6 +16,8 @@ const useForm = <ValidateProps>({
   const [validateError, setValidateError] = useState(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
+  const satisfyAllValidites = Object.values(validateError).every(value => !value);
+
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setInputValues({ ...inputValues, [name]: value });
@@ -32,7 +34,14 @@ const useForm = <ValidateProps>({
     setIsLoading(false);
   };
 
-  return { inputValues, validateError, isLoading, onChangeHandler, submitHandler };
+  return {
+    inputValues,
+    validateError,
+    isLoading,
+    onChangeHandler,
+    submitHandler,
+    satisfyAllValidites,
+  };
 };
 
 export default useForm;
