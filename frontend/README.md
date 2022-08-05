@@ -9,8 +9,8 @@
 
 ## api mocking
 
-- [ ] : api 매핑 (axios사용하지 않기)
-- [ ] : mock데이터 생성
+- [x] : api 매핑 with axios
+- [x] : mock데이터 생성
 
 ## 회원가입, 로그인 페이지
 
