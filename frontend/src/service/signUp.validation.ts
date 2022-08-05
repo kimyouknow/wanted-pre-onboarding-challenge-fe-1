@@ -3,6 +3,7 @@ export interface SignUpValidateProps {
   password: string;
 }
 
+// TODO: 정규표현식으로 바꿔보기
 const signUpValidate = ({ email, password }: SignUpValidateProps) => {
   const validateErros: SignUpValidateProps = {
     email: '',

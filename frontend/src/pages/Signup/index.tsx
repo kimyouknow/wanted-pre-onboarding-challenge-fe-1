@@ -7,12 +7,13 @@ import StackColumn from '@/components/Common/StackColumn';
 import useForm from '@/hooks/useForm';
 import signUpValidate, { SignUpValidateProps } from '@/service/signUp.validation';
 
+// TODO: api요청 이후 로딩, 에러, 성공 상태 보여주기
 const SignUp = () => {
   const onSubmit = async (submitData: SignUpValidateProps) => {
     try {
       const response = await authApi.signUp({ data: submitData });
       console.log('response :>> ', response);
-      // TODO: 성공 메세지 보여주기
+      // TODO: 성공 이후 로그인 페이지로 이동
     } catch (error) {
       console.error(error);
     }
