@@ -2,13 +2,13 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react';
 
 interface UseFormProps<ValidateProps> {
   initialValues: ValidateProps;
-  onSubmit: (submitData: ValidateProps) => Promise<void>;
+  submitCallback: (submitData: ValidateProps) => Promise<void>;
   validate: (values: ValidateProps) => ValidateProps;
 }
 
 const useForm = <ValidateProps>({
   initialValues,
-  onSubmit,
+  submitCallback,
   validate,
 }: UseFormProps<ValidateProps>) => {
   const [inputValues, setInputValues] = useState(initialValues);
@@ -33,7 +33,7 @@ const useForm = <ValidateProps>({
       return;
     }
     setIsLoading(true);
-    await onSubmit(inputValues);
+    await submitCallback(inputValues);
     setIsLoading(false);
   };
 

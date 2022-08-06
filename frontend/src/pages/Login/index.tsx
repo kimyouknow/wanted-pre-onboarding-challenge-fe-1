@@ -8,7 +8,7 @@ import useForm from '@/hooks/useForm';
 import loginValidate, { LoginValidateProps } from '@/service/login.validation';
 
 const Login = () => {
-  const onSubmit = async (submitData: LoginValidateProps) => {
+  const submitCallback = async (submitData: LoginValidateProps) => {
     try {
       const response = await authApi.login({ data: submitData });
       console.log('response :>> ', response);
@@ -26,11 +26,11 @@ const Login = () => {
     satisfyAllValidites,
   } = useForm<LoginValidateProps>({
     initialValues: { email: '', password: '' },
-    onSubmit,
+    submitCallback,
     validate: loginValidate,
   });
   return (
-    <Box component="form" autoComplete="off">
+    <Box component="form" autoComplete="off" onSubmit={submitHandler}>
       <StackColumn>
         <TextField
           id="outlined-basic"
