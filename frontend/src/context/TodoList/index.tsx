@@ -5,11 +5,11 @@ import { DispatchToastNotification, initState, reducer, StateType } from './redu
 const ToastNotificationStateContext = createContext<StateType>({ toastList: [] });
 const ToastNotificationActionContext = createContext<DispatchToastNotification>(() => null);
 
-interface ToastNotificationProviderProps {
+interface TodoProviderProps {
   children: ReactNode;
 }
 
-const ToastNotificationProvider = ({ children }: ToastNotificationProviderProps) => {
+export default function TodoProvider({ children }: TodoProviderProps) {
   const [state, notifyDispatch] = useReducer(reducer, initState);
   const states = useMemo(() => ({ ...state }), [state]);
 
@@ -20,15 +20,15 @@ const ToastNotificationProvider = ({ children }: ToastNotificationProviderProps)
       </ToastNotificationActionContext.Provider>
     </ToastNotificationStateContext.Provider>
   );
-};
+}
 
-export const useToastNotificationState = () => {
+export function useToastNotificationState() {
   const states = useContext(ToastNotificationStateContext);
   if (states === undefined) {
     throw new Error('useCommentsState should be used within CommentProvider');
   }
   return states;
-};
+}
 
 export const useToastNotificationAction = () => {
   const dispatch = useContext(ToastNotificationActionContext);
@@ -39,5 +39,3 @@ export const useToastNotificationAction = () => {
 
   return dispatch;
 };
-
-export default ToastNotificationProvider;
