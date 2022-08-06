@@ -1,21 +1,32 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { useNavigate } from 'react-router-dom';
 
 import authApi from '@/api/auth';
 import StackColumn from '@/components/Common/StackColumn';
+import { ROUTE } from '@/constant/route';
+import { useToastNotificationAction } from '@/context/ToastNotification';
+import { notifyNewMessage } from '@/context/ToastNotification/action';
 import useForm from '@/hooks/useForm';
 import signUpValidate, { SignUpValidateProps } from '@/service/signUp.validation';
 
-// TODO: api요청 이후 로딩, 에러, 성공 상태 보여주기
 const SignUp = () => {
+  const navigate = useNavigate();
+  const notifyDispatch = useToastNotificationAction();
   const submitCallback = async (submitData: SignUpValidateProps) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
       const response = await authApi.signUp({ data: submitData });
-      console.log('response :>> ', response);
-      // TODO: 성공 이후 로그인 페이지로 이동
+      const { message } = response.data;
+      notifyNewMessage(notifyDispatch, message, 'Success');
+      setTimeout(() => {
+        navigate(ROUTE.LOGIN);
+      }, 1000);
     } catch (error) {
       console.error(error);
+      notifyNewMessage(notifyDispatch, '회원가입과정에서 에러가 발생했습니다', 'Error');
     }
   };
   const {
