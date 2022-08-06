@@ -2,13 +2,13 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react';
 
 interface UseFormProps<ValidateProps> {
   initialValues: ValidateProps;
-  onSubmit: (submitData: ValidateProps) => void;
+  submitCallback: (submitData: ValidateProps) => Promise<void>;
   validate: (values: ValidateProps) => ValidateProps;
 }
 
 const useForm = <ValidateProps>({
   initialValues,
-  onSubmit,
+  submitCallback,
   validate,
 }: UseFormProps<ValidateProps>) => {
   const [inputValues, setInputValues] = useState(initialValues);
@@ -16,6 +16,7 @@ const useForm = <ValidateProps>({
   const [validateError, setValidateError] = useState(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
+  // validateError 객체에 있는 모든 데이터의 value가 ""이거나 null이면 true를 반환
   const satisfyAllValidites = Object.values(validateError).every(value => !value);
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -26,9 +27,13 @@ const useForm = <ValidateProps>({
 
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
-    if (!satisfyAllValidites) return; // TODO: api Error = true
+
+    if (!satisfyAllValidites) {
+      // TODO: api Error = true 설정
+      return;
+    }
     setIsLoading(true);
-    await onSubmit(inputValues);
+    await submitCallback(inputValues);
     setIsLoading(false);
   };
 

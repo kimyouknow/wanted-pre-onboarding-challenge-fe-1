@@ -9,7 +9,7 @@ import signUpValidate, { SignUpValidateProps } from '@/service/signUp.validation
 
 // TODO: api요청 이후 로딩, 에러, 성공 상태 보여주기
 const SignUp = () => {
-  const onSubmit = async (submitData: SignUpValidateProps) => {
+  const submitCallback = async (submitData: SignUpValidateProps) => {
     try {
       const response = await authApi.signUp({ data: submitData });
       console.log('response :>> ', response);
@@ -27,7 +27,7 @@ const SignUp = () => {
     satisfyAllValidites,
   } = useForm<SignUpValidateProps>({
     initialValues: { email: '', password: '' },
-    onSubmit,
+    submitCallback,
     validate: signUpValidate,
   });
 
