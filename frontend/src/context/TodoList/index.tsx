@@ -1,8 +1,8 @@
 import { createContext, useMemo, useContext, ReactNode } from 'react';
 
-import useTodoList, { TodoListActionType, TodoListStateType, tooInitState } from './useTodoList';
+import useTodoList, { TodoListActionType, TodoListStateType, todoInitState } from './useTodoList';
 
-const ToastNotificationStateContext = createContext<TodoListStateType>(tooInitState);
+const ToastNotificationStateContext = createContext<TodoListStateType>(todoInitState);
 const ToastNotificationActionContext = createContext<TodoListActionType | null>(null);
 
 interface TodoListProviderProps {
@@ -11,37 +11,42 @@ interface TodoListProviderProps {
 
 const TodoListProvider = ({ children }: TodoListProviderProps) => {
   const {
-    isActivateCreateForm,
     todoList,
     targetTodoId,
     isLoading,
     apiError,
+    isActivateCreateForm,
+    isActivateEditForm,
     changeTargetTodoId,
     handleClickTodoElement,
-    showCreateForm,
-    hideCreateForm,
     handleClickActivateCreateFormButton,
+    handleClickActivateEditFormButton,
   } = useTodoList();
 
   const states = useMemo(
-    () => ({ isActivateCreateForm, todoList, isLoading, apiError, targetTodoId }),
-    [isActivateCreateForm, todoList, isLoading, apiError, targetTodoId],
+    () => ({
+      todoList,
+      isLoading,
+      apiError,
+      targetTodoId,
+      isActivateCreateForm,
+      isActivateEditForm,
+    }),
+    [todoList, isLoading, apiError, targetTodoId, isActivateCreateForm, isActivateEditForm],
   );
 
   const actions = useMemo(
     () => ({
       changeTargetTodoId,
       handleClickTodoElement,
-      showCreateForm,
-      hideCreateForm,
       handleClickActivateCreateFormButton,
+      handleClickActivateEditFormButton,
     }),
     [
       changeTargetTodoId,
       handleClickTodoElement,
-      showCreateForm,
-      hideCreateForm,
       handleClickActivateCreateFormButton,
+      handleClickActivateEditFormButton,
     ],
   );
 

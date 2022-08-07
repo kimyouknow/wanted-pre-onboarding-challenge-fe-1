@@ -1,11 +1,16 @@
+import { Button } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
+import { useTodoListProviderAction, useTodoListProviderState } from '@/context/TodoList';
+import EditTodoForm from '@/pages/Todo/Form/Edit.TodoForm';
 import { TodoDetailResponseType, TodoType } from '@/types/todo.type';
 
 const TodoDetail = () => {
+  const { isActivateEditForm } = useTodoListProviderState();
+  const { handleClickActivateEditFormButton } = useTodoListProviderAction();
   // TODO: todoId 상수로 처리하기
   const { todoId } = useParams();
   const [todoInfo, setTodoInfo] = useState<TodoType | null>(null);
@@ -48,7 +53,7 @@ const TodoDetail = () => {
     );
   }
 
-  if (!todoInfo) {
+  if (!todoInfo || !todoId) {
     return <div>보여줄 데이터가 없어요</div>;
   }
 
@@ -57,8 +62,22 @@ const TodoDetail = () => {
   return (
     <div>
       <h2>할 일 상세 정보</h2>
-      <h3>{title}</h3>
-      <p>{content}</p>
+      {isActivateEditForm ? (
+        <>
+          <EditTodoForm id={todoId} title={title} content={content} />
+          <Button variant="contained" onClick={handleClickActivateEditFormButton}>
+            취소
+          </Button>
+        </>
+      ) : (
+        <div>
+          <h3>{title}</h3>
+          <p>{content}</p>
+          <Button variant="contained" onClick={handleClickActivateEditFormButton}>
+            수정
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
