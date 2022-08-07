@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
 import { ROUTE } from '@/constant/route';
-import { TodoResponseType, TodoType } from '@/types/todo.type';
+import { TodoListResponseType, TodoType } from '@/types/todo.type';
 
 export type TodoListStateType = {
   todoList: TodoType[];
@@ -43,7 +43,7 @@ const useTodoList = () => {
   const getTodoList = async () => {
     setIsLoading(true);
     try {
-      const response: AxiosResponse<TodoResponseType> = await todoApi.getTodoList();
+      const response: AxiosResponse<TodoListResponseType> = await todoApi.getTodoList();
       // TODO: 데이터 파싱 interceptor에서 하는 걸로 수정하기
       setTodoList(response.data.data);
       setIsLoading(false);
@@ -55,6 +55,8 @@ const useTodoList = () => {
       });
     }
   };
+
+  // const getTodoDetail = (todoId: string) => todoApi.getTodoDetail(todoId);
 
   useEffect(() => {
     getTodoList();

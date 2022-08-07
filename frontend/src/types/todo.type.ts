@@ -9,6 +9,10 @@ export interface TodoRequestType {
   data: TodoType;
 }
 
-export interface TodoResponseType {
+export interface TodoListResponseType {
   data: TodoType[];
+}
+
+export interface TodoDetailResponseType {
+  data: TodoType;
 }
