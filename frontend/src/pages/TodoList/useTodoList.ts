@@ -5,6 +5,7 @@ import todoApi from '@/api/todo.api';
 import { TodoResponseType, TodoType } from '@/types/todo.type';
 
 const useTodoList = () => {
+  const [targetTodoId, setTargetTodoId] = useState<string | null>(null);
   const [todoList, setTodoList] = useState<TodoType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState({
@@ -12,7 +13,11 @@ const useTodoList = () => {
     msg: '',
   });
 
-  const fetcher = async () => {
+  const changeTargetTodoId = (targetId: string) => {
+    setTargetTodoId(targetId);
+  };
+
+  const getTodoList = async () => {
     setIsLoading(true);
     try {
       const response: AxiosResponse<TodoResponseType> = await todoApi.getTodoList();
@@ -29,10 +34,10 @@ const useTodoList = () => {
   };
 
   useEffect(() => {
-    fetcher();
+    getTodoList();
   }, []);
 
-  return { todoList, isLoading, apiError };
+  return { todoList, isLoading, apiError, targetTodoId, changeTargetTodoId };
 };
 
 export default useTodoList;
