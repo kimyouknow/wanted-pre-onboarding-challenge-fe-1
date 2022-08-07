@@ -6,7 +6,6 @@ import todoApi from '@/api/todo.api';
 import StackColumn from '@/components/Common/StackColumn';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
-import { useTodoListProviderState } from '@/context/TodoList';
 import useForm from '@/hooks/useForm';
 import todoValidate, { TodoValidateProps } from '@/service/todo.validation';
 import { TodoInfoType } from '@/types/todo.type';
@@ -69,7 +68,7 @@ const CreateTodoForm = () => {
             helperText={validateError.content}
           />
           <Button type="submit" variant="contained" disabled={!satisfyAllValidites}>
-            +
+            작성
           </Button>
         </StackColumn>
       </Box>

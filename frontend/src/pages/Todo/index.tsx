@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 
 import TodoListProvider, {
@@ -12,9 +13,14 @@ import TodoDetail from './TodoDetail';
 import TodoList from './TodoList';
 
 const Todo = () => {
+  const { isActivateCreateForm } = useTodoListProviderState();
+  const { handleClickActivateCreateFormButton } = useTodoListProviderAction();
   return (
     <S.Container>
-      <CreateTodoForm />
+      {isActivateCreateForm && <CreateTodoForm />}
+      <Button variant="contained" onClick={handleClickActivateCreateFormButton}>
+        {isActivateCreateForm ? '취소' : '+'}
+      </Button>
       <S.TodoList>
         <TodoList />
         <Routes>

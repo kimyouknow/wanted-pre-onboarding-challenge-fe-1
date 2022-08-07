@@ -11,22 +11,38 @@ interface TodoListProviderProps {
 
 const TodoListProvider = ({ children }: TodoListProviderProps) => {
   const {
+    isActivateCreateForm,
     todoList,
     targetTodoId,
     isLoading,
     apiError,
     changeTargetTodoId,
     handleClickTodoElement,
+    showCreateForm,
+    hideCreateForm,
+    handleClickActivateCreateFormButton,
   } = useTodoList();
 
   const states = useMemo(
-    () => ({ todoList, isLoading, apiError, targetTodoId }),
-    [todoList, isLoading, apiError, targetTodoId],
+    () => ({ isActivateCreateForm, todoList, isLoading, apiError, targetTodoId }),
+    [isActivateCreateForm, todoList, isLoading, apiError, targetTodoId],
   );
 
   const actions = useMemo(
-    () => ({ changeTargetTodoId, handleClickTodoElement }),
-    [changeTargetTodoId, handleClickTodoElement],
+    () => ({
+      changeTargetTodoId,
+      handleClickTodoElement,
+      showCreateForm,
+      hideCreateForm,
+      handleClickActivateCreateFormButton,
+    }),
+    [
+      changeTargetTodoId,
+      handleClickTodoElement,
+      showCreateForm,
+      hideCreateForm,
+      handleClickActivateCreateFormButton,
+    ],
   );
 
   return (
