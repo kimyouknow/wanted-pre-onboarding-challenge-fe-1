@@ -1,12 +1,17 @@
 import { Route, Routes } from 'react-router-dom';
 
+import TodoListProvider, {
+  useTodoListProviderAction,
+  useTodoListProviderState,
+} from '@/context/TodoList';
+import WithProvider from '@/hoc/WithProvider';
 import TodoDetail from '@/pages/TodoList/TodoDetail';
-import useTodoList from '@/pages/TodoList/useTodoList';
 
 import * as S from './style';
 
 const Todos = () => {
-  const { todoList, isLoading, apiError, changeTargetTodoId } = useTodoList();
+  const { todoList, isLoading, apiError } = useTodoListProviderState();
+  const { changeTargetTodoId } = useTodoListProviderAction();
 
   if (isLoading) {
     return <div>로딩중...</div>;
@@ -42,4 +47,4 @@ const Todos = () => {
   );
 };
 
-export default Todos;
+export default WithProvider({ Provider: TodoListProvider, Component: Todos });
