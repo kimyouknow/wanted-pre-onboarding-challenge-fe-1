@@ -14,18 +14,17 @@ import { TodoInfoType } from '@/types/todo.type';
 import * as S from '../style';
 
 const CreateTodoForm = () => {
-  const { targetTodoId } = useTodoListProviderState();
   const notifyDispatch = useToastNotificationAction();
   const submitCallback = async (submitData: TodoInfoType) => {
     // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
     notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
-      const response = await todoApi.createTodo({ id: targetTodoId, data: submitData });
+      const response = await todoApi.createTodo(submitData);
       console.log(response);
       notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
     } catch (error) {
       console.error(error);
-      notifyNewMessage(notifyDispatch, '로그인 과정에서 에러가 발생했습니다', 'Error');
+      notifyNewMessage(notifyDispatch, '작성 과정에서 에러가 발생했습니다', 'Error');
     }
   };
   const {
@@ -40,6 +39,7 @@ const CreateTodoForm = () => {
     submitCallback,
     validate: todoValidate,
   });
+
   return (
     <S.TodoForm>
       <Box component="form" autoComplete="off" onSubmit={submitHandler}>
