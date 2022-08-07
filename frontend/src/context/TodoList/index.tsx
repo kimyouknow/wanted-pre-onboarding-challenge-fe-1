@@ -21,6 +21,7 @@ const TodoListProvider = ({ children }: TodoListProviderProps) => {
     handleClickTodoElement,
     handleClickActivateCreateFormButton,
     handleClickActivateEditFormButton,
+    deleteTarget,
   } = useTodoList();
 
   const states = useMemo(
@@ -41,12 +42,14 @@ const TodoListProvider = ({ children }: TodoListProviderProps) => {
       handleClickTodoElement,
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
+      deleteTarget,
     }),
     [
       changeTargetTodoId,
       handleClickTodoElement,
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
+      deleteTarget,
     ],
   );
 

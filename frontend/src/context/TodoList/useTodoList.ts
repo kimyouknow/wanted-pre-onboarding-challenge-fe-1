@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
 import { ROUTE } from '@/constant/route';
+import { useToastNotificationAction } from '@/context/ToastNotification';
+import { notifyNewMessage } from '@/context/ToastNotification/action';
 import { TodoListResponseType, TodoType } from '@/types/todo.type';
 
 export type TodoListStateType = {
@@ -20,6 +22,7 @@ export type TodoListActionType = {
   handleClickTodoElement: (targetId: string) => void;
   handleClickActivateCreateFormButton: () => void;
   handleClickActivateEditFormButton: () => void;
+  deleteTarget: (targetId: string) => void;
 };
 
 export const todoInitState = {
@@ -33,6 +36,7 @@ export const todoInitState = {
 
 const useTodoList = () => {
   const navigate = useNavigate();
+  const notifyDispatch = useToastNotificationAction();
   const [isActivateCreateForm, setIsActivateCreateForm] = useState(
     todoInitState.isActivateCreateForm,
   );
@@ -61,6 +65,18 @@ const useTodoList = () => {
   const handleClickTodoElement = (todoId: string) => {
     changeTargetTodoId(todoId);
     navigate(`${ROUTE.TODO}/${todoId}`);
+  };
+
+  const deleteTarget = async (targetId: string) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
+    try {
+      await todoApi.deleteTodo(targetId);
+      notifyNewMessage(notifyDispatch, '삭제 성공!', 'Success');
+    } catch (error) {
+      console.error(error);
+      notifyNewMessage(notifyDispatch, '삭제 과정에서 에러가 발생했습니다', 'Error');
+    }
   };
 
   const getTodoList = async () => {
@@ -96,6 +112,7 @@ const useTodoList = () => {
     handleClickTodoElement,
     handleClickActivateCreateFormButton,
     handleClickActivateEditFormButton,
+    deleteTarget,
   };
 };
 
