@@ -10,11 +10,18 @@ interface TodoListProviderProps {
 }
 
 const TodoListProvider = ({ children }: TodoListProviderProps) => {
-  const { todoList, isLoading, apiError, changeTargetTodoId, handleClickTodoElement } =
-    useTodoList();
+  const {
+    todoList,
+    targetTodoId,
+    isLoading,
+    apiError,
+    changeTargetTodoId,
+    handleClickTodoElement,
+  } = useTodoList();
+
   const states = useMemo(
-    () => ({ todoList, isLoading, apiError }),
-    [todoList, isLoading, apiError],
+    () => ({ todoList, isLoading, apiError, targetTodoId }),
+    [todoList, isLoading, apiError, targetTodoId],
   );
 
   const actions = useMemo(

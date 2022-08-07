@@ -10,6 +10,7 @@ export type TodoListStateType = {
   todoList: TodoType[];
   isLoading: boolean;
   apiError: { isError: boolean; msg: string };
+  targetTodoId: string;
 };
 
 export type TodoListActionType = {
