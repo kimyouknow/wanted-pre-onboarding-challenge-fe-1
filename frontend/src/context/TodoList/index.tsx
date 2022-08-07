@@ -10,13 +10,17 @@ interface TodoListProviderProps {
 }
 
 const TodoListProvider = ({ children }: TodoListProviderProps) => {
-  const { todoList, isLoading, apiError, changeTargetTodoId } = useTodoList();
+  const { todoList, isLoading, apiError, changeTargetTodoId, handleClickTodoElement } =
+    useTodoList();
   const states = useMemo(
     () => ({ todoList, isLoading, apiError }),
     [todoList, isLoading, apiError],
   );
 
-  const actions = useMemo(() => ({ changeTargetTodoId }), [changeTargetTodoId]);
+  const actions = useMemo(
+    () => ({ changeTargetTodoId, handleClickTodoElement }),
+    [changeTargetTodoId, handleClickTodoElement],
+  );
 
   return (
     <ToastNotificationStateContext.Provider value={states}>

@@ -5,9 +5,10 @@ import TodoListProvider, {
   useTodoListProviderState,
 } from '@/context/TodoList';
 import WithProvider from '@/hoc/WithProvider';
-import TodoDetail from '@/pages/TodoList/TodoDetail';
 
 import * as S from './style';
+import TodoDetail from './TodoDetail';
+import TodoElement from './TodoElement';
 
 const Todos = () => {
   const { todoList, isLoading, apiError } = useTodoListProviderState();
@@ -33,10 +34,8 @@ const Todos = () => {
         <div>할 일 목록이 없네요!</div>
       ) : (
         <ul>
-          {todoList.map(({ id }) => (
-            <li key={id} onClick={() => changeTargetTodoId(id)}>
-              123
-            </li>
+          {todoList.map(({ id, ...todoInfo }) => (
+            <TodoElement key={id} todoInfo={{ ...todoInfo, id }} />
           ))}
         </ul>
       )}
