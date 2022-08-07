@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import authApi from '@/api/auth.api';
 import StackColumn from '@/components/Common/StackColumn';
+import { ACCESS_TOKEN } from '@/constant/auth';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
@@ -22,7 +23,7 @@ const Login = () => {
       const response = await authApi.login({ data: submitData });
       const { message, token } = response.data;
       // TODO: serivce 로직으로 분리
-      handleLocalStorage.set('accessToken', token);
+      handleLocalStorage.set(ACCESS_TOKEN, token);
       notifyNewMessage(notifyDispatch, message, 'Success');
       setTimeout(() => {
         navigate(ROUTE.MAIN);

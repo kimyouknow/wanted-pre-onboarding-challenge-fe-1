@@ -85,13 +85,14 @@ const useTodoList = () => {
       const response: AxiosResponse<TodoListResponseType> = await todoApi.getTodoList();
       // TODO: 데이터 파싱 interceptor에서 하는 걸로 수정하기
       setTodoList(response.data.data);
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
       setApiError({
         isError: true,
         msg: '데이터 요청 중에 에러 발생',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
