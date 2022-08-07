@@ -4,6 +4,8 @@ import { API_URL } from '@/constant/api';
 import { ACCESS_TOKEN } from '@/constant/auth';
 import { handleLocalStorage } from '@/utils/localstorage';
 
+import { errorHandler, successHandler } from './responseHandler';
+
 // TODO: headers에 토큰 지정하기
 const apiInstance: AxiosInstance = axios.create({
   baseURL: API_URL,
@@ -17,6 +19,7 @@ const setAcessTokenInRequestConfig = (config: AxiosRequestConfig) => {
     return config;
   }
   config.headers.Authorization = `Bearer ${accessToken}`;
+  // req.headers.Authorization = accessToken;
   return config;
 };
 
@@ -30,5 +33,7 @@ apiInstance.interceptors.request.use(
     return Promise.reject(new Error('요청 에러 발생'));
   },
 );
+
+apiInstance.interceptors.response.use(successHandler, errorHandler);
 
 export default apiInstance;
