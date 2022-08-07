@@ -24,11 +24,14 @@ const TodoList = () => {
   }
 
   return (
-    <ul>
-      {todoList.map(({ id, ...todoInfo }) => (
-        <TodoElement key={id} todoInfo={{ ...todoInfo, id }} />
-      ))}
-    </ul>
+    <div>
+      <h2>할 일 목록</h2>
+      <ul>
+        {todoList.map(({ id, ...todoInfo }) => (
+          <TodoElement key={id} todoInfo={{ ...todoInfo, id }} />
+        ))}
+      </ul>
+    </div>
   );
 };
 

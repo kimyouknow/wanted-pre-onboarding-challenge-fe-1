@@ -4,6 +4,7 @@ export const Container = styled.div``;
 
 export const TodoList = styled.div`
   display: flex;
+  gap: 30px;
 `;
 
 export const TodoForm = styled.div`

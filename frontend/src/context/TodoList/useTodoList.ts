@@ -12,44 +12,46 @@ export type TodoListStateType = {
   apiError: { isError: boolean; msg: string };
   targetTodoId: string;
   isActivateCreateForm: boolean;
+  isActivateEditForm: boolean;
 };
 
 export type TodoListActionType = {
   changeTargetTodoId: (targetId: string) => void;
   handleClickTodoElement: (targetId: string) => void;
-  showCreateForm: () => void;
-  hideCreateForm: () => void;
   handleClickActivateCreateFormButton: () => void;
+  handleClickActivateEditFormButton: () => void;
 };
 
-export const tooInitState = {
-  isActivateCreateForm: false,
-  targetTodoId: '',
+export const todoInitState = {
   todoList: [],
   isLoading: true,
   apiError: { isError: false, msg: '' },
+  targetTodoId: '',
+  isActivateCreateForm: false,
+  isActivateEditForm: false,
 };
 
 const useTodoList = () => {
   const navigate = useNavigate();
   const [isActivateCreateForm, setIsActivateCreateForm] = useState(
-    tooInitState.isActivateCreateForm,
+    todoInitState.isActivateCreateForm,
   );
-  const [targetTodoId, setTargetTodoId] = useState<string>(tooInitState.targetTodoId);
-  const [todoList, setTodoList] = useState<TodoType[]>(tooInitState.todoList);
-  const [isLoading, setIsLoading] = useState(tooInitState.isLoading);
-  const [apiError, setApiError] = useState(tooInitState.apiError);
-
-  const showCreateForm = () => {
-    setIsActivateCreateForm(true);
-  };
-
-  const hideCreateForm = () => {
-    setIsActivateCreateForm(false);
-  };
+  const [isActivateEditForm, setIsActivateEditForm] = useState(todoInitState.isActivateEditForm);
+  const [targetTodoId, setTargetTodoId] = useState<string>(todoInitState.targetTodoId);
+  const [todoList, setTodoList] = useState<TodoType[]>(todoInitState.todoList);
+  const [isLoading, setIsLoading] = useState(todoInitState.isLoading);
+  const [apiError, setApiError] = useState(todoInitState.apiError);
 
   const handleClickActivateCreateFormButton = () => {
     setIsActivateCreateForm(prev => !prev);
+    // form은 하나씩 화면에 표시되게 하기
+    setIsActivateEditForm(false);
+  };
+
+  const handleClickActivateEditFormButton = () => {
+    setIsActivateEditForm(prev => !prev);
+    // form은 하나씩 화면에 표시되게 하기
+    setIsActivateCreateForm(false);
   };
 
   const changeTargetTodoId = (targetId: string) => {
@@ -84,16 +86,16 @@ const useTodoList = () => {
   }, []);
 
   return {
-    isActivateCreateForm,
     todoList,
     isLoading,
     apiError,
     targetTodoId,
+    isActivateCreateForm,
+    isActivateEditForm,
     changeTargetTodoId,
     handleClickTodoElement,
-    showCreateForm,
-    hideCreateForm,
     handleClickActivateCreateFormButton,
+    handleClickActivateEditFormButton,
   };
 };
 
