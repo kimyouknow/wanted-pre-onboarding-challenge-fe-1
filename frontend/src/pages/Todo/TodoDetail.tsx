@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
+import { useToastNotificationAction } from '@/context/ToastNotification';
+import { notifyNewMessage } from '@/context/ToastNotification/action';
 import { useTodoListProviderAction, useTodoListProviderState } from '@/context/TodoList';
 import EditTodoForm from '@/pages/Todo/Form/Edit.TodoForm';
 import { TodoDetailResponseType, TodoType } from '@/types/todo.type';
@@ -11,11 +13,30 @@ import { TodoDetailResponseType, TodoType } from '@/types/todo.type';
 const TodoDetail = () => {
   const { isActivateEditForm } = useTodoListProviderState();
   const { handleClickActivateEditFormButton } = useTodoListProviderAction();
+  const notifyDispatch = useToastNotificationAction();
   // TODO: todoId 상수로 처리하기
   const { todoId } = useParams();
   const [todoInfo, setTodoInfo] = useState<TodoType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState({ isError: false, msg: '' });
+
+  const handleClickDeleteButton = () => {
+    if (todoId) {
+      deleteTarget(todoId);
+    }
+  };
+
+  const deleteTarget = async (targetId: string) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
+    try {
+      await todoApi.deleteTodo(targetId);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      notifyNewMessage(notifyDispatch, '로그인 과정에서 에러가 발생했습니다', 'Error');
+    }
+  };
 
   const getTodoDetail = async (id: string) => {
     setIsLoading(true);
@@ -75,6 +96,9 @@ const TodoDetail = () => {
           <p>{content}</p>
           <Button variant="contained" onClick={handleClickActivateEditFormButton}>
             수정
+          </Button>
+          <Button variant="contained" onClick={handleClickDeleteButton}>
+            삭제
           </Button>
         </div>
       )}
