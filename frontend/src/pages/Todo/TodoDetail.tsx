@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
+import { useToastNotificationAction } from '@/context/ToastNotification';
+import { notifyNewMessage } from '@/context/ToastNotification/action';
 import { useTodoListProviderAction, useTodoListProviderState } from '@/context/TodoList';
 import EditTodoForm from '@/pages/Todo/Form/Edit.TodoForm';
 import { TodoDetailResponseType, TodoType } from '@/types/todo.type';
 
 const TodoDetail = () => {
+  const notifyDispatch = useToastNotificationAction();
   const { isActivateEditForm } = useTodoListProviderState();
   const { handleClickActivateEditFormButton, deleteTarget } = useTodoListProviderAction();
 
@@ -30,8 +33,9 @@ const TodoDetail = () => {
       const response: AxiosResponse<TodoDetailResponseType> = await todoApi.getTodoDetail(id);
       // TODO: 데이터 파싱 interceptor에서 하는 걸로 수정하기
       setTodoInfo(response.data.data);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      notifyNewMessage(notifyDispatch, error, 'Error');
       setApiError({
         isError: true,
         msg: '데이터 요청 중에 에러 발생',

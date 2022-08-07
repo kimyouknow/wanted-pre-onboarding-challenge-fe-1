@@ -18,7 +18,7 @@ const signUpValidate = ({ email, password }: SignUpValidateProps) => {
 
   if (!password) {
     validateErros.password = '비빌번호가 입력되지 않았습니다. ';
-  } else if (password.length < 7) {
+  } else if (password.length < 8) {
     validateErros.password = '비빌번호는 최소 8자 이상이어야 합니다. ';
   }
 

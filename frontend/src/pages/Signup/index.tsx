@@ -24,9 +24,9 @@ const SignUp = () => {
       setTimeout(() => {
         navigate(ROUTE.LOGIN);
       }, 1000);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      notifyNewMessage(notifyDispatch, '회원가입과정에서 에러가 발생했습니다', 'Error');
+      notifyNewMessage(notifyDispatch, error, 'Error');
     }
   };
   const {

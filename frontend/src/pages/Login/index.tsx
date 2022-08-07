@@ -28,9 +28,9 @@ const Login = () => {
       setTimeout(() => {
         navigate(ROUTE.MAIN);
       }, 1000);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      notifyNewMessage(notifyDispatch, '로그인 과정에서 에러가 발생했습니다', 'Error');
+      notifyNewMessage(notifyDispatch, error, 'Error');
     }
   };
   const {
