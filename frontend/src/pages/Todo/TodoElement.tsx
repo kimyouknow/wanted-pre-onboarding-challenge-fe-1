@@ -12,7 +12,7 @@ const TodoElement = ({ todoInfo }: TodoElementProps) => {
   const { handleClickTodoElement } = useTodoListProviderAction();
   return (
     <S.TodoElement onClick={() => handleClickTodoElement(todoId)}>
-      <h2>{title}</h2>
+      <h4>{title}</h4>
     </S.TodoElement>
   );
 };
