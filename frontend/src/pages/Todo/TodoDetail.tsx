@@ -56,7 +56,8 @@ const TodoDetail = () => {
 
   return (
     <div>
-      <h2>{title}</h2>
+      <h2>할 일 상세 정보</h2>
+      <h3>{title}</h3>
       <p>{content}</p>
     </div>
   );
