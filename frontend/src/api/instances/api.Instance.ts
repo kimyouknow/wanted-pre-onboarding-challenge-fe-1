@@ -15,11 +15,10 @@ const apiInstance: AxiosInstance = axios.create({
 
 const setAcessTokenInRequestConfig = (config: AxiosRequestConfig) => {
   const accessToken = handleLocalStorage.get(ACCESS_TOKEN);
-  if (!config?.headers || !!accessToken) {
+  if (!config?.headers || !accessToken) {
     return config;
   }
-  config.headers.Authorization = `Bearer ${accessToken}`;
-  // req.headers.Authorization = accessToken;
+  config.headers.Authorization = accessToken;
   return config;
 };
 
