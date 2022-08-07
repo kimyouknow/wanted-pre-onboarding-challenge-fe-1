@@ -3,7 +3,7 @@ import { API } from '@/constant/api';
 import { TodoRequestType } from '@/types/todo.type';
 
 // TODO: 파라미터 및 body로 넘겨줄 인자 설정하기
-const todosApi = {
+const todoApi = {
   getTodoList() {
     return apiInstance({
       url: API.TODOS,
@@ -37,4 +37,4 @@ const todosApi = {
   },
 };
 
-export default todosApi;
+export default todoApi;
