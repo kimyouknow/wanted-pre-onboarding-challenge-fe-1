@@ -5,7 +5,7 @@ import Layouts from '@/layouts';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
 import SignUp from '@/pages/SignUp';
-import TodoList from '@/pages/TodoList';
+import Todo from '@/pages/Todo';
 
 const App = () => {
   return (
@@ -13,7 +13,7 @@ const App = () => {
       <Routes>
         <Route path={ROUTE.MAIN} element={<Layouts />}>
           <Route index element={<Navigate to={ROUTE.TODO} replace />} />
-          <Route path={ROUTE.TODO + '*'} element={<TodoList />} />
+          <Route path={ROUTE.TODO + '*'} element={<Todo />} />
           <Route path={ROUTE.LOGIN} element={<Login />} />
           <Route path={ROUTE.SIGNUP} element={<SignUp />} />
         </Route>

@@ -4,9 +4,11 @@ export interface TodoType {
   title: string;
 }
 
+export type TodoInfoType = Omit<TodoType, 'id'>;
+
 export interface TodoRequestType {
   id: string;
-  data: TodoType;
+  data: TodoInfoType;
 }
 
 export interface TodoListResponseType {

@@ -10,14 +10,20 @@ export type TodoListStateType = {
   todoList: TodoType[];
   isLoading: boolean;
   apiError: { isError: boolean; msg: string };
+  targetTodoId: string;
+  isActivateCreateForm: boolean;
 };
 
 export type TodoListActionType = {
   changeTargetTodoId: (targetId: string) => void;
   handleClickTodoElement: (targetId: string) => void;
+  showCreateForm: () => void;
+  hideCreateForm: () => void;
+  handleClickActivateCreateFormButton: () => void;
 };
 
 export const tooInitState = {
+  isActivateCreateForm: false,
   targetTodoId: '',
   todoList: [],
   isLoading: true,
@@ -26,10 +32,25 @@ export const tooInitState = {
 
 const useTodoList = () => {
   const navigate = useNavigate();
+  const [isActivateCreateForm, setIsActivateCreateForm] = useState(
+    tooInitState.isActivateCreateForm,
+  );
   const [targetTodoId, setTargetTodoId] = useState<string>(tooInitState.targetTodoId);
   const [todoList, setTodoList] = useState<TodoType[]>(tooInitState.todoList);
   const [isLoading, setIsLoading] = useState(tooInitState.isLoading);
   const [apiError, setApiError] = useState(tooInitState.apiError);
+
+  const showCreateForm = () => {
+    setIsActivateCreateForm(true);
+  };
+
+  const hideCreateForm = () => {
+    setIsActivateCreateForm(false);
+  };
+
+  const handleClickActivateCreateFormButton = () => {
+    setIsActivateCreateForm(prev => !prev);
+  };
 
   const changeTargetTodoId = (targetId: string) => {
     setTargetTodoId(targetId);
@@ -63,12 +84,16 @@ const useTodoList = () => {
   }, []);
 
   return {
+    isActivateCreateForm,
     todoList,
     isLoading,
     apiError,
     targetTodoId,
     changeTargetTodoId,
     handleClickTodoElement,
+    showCreateForm,
+    hideCreateForm,
+    handleClickActivateCreateFormButton,
   };
 };
 

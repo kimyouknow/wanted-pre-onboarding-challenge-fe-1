@@ -14,7 +14,7 @@ const todoHandler = [
     return res(ctx.status(200), ctx.delay(1000), ctx.json(todoDetail));
   }),
   // 할 일 생성
-  rest.post(API_URL + API.TODOS + '/:id', (req, res, ctx) => {
+  rest.post(API_URL + API.TODOS, (req, res, ctx) => {
     return res(ctx.status(200), ctx.delay(1000), ctx.json(createTodo));
   }),
   // 할 일 수정
