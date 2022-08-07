@@ -1,4 +1,5 @@
 export interface TodoType {
+  id: string;
   content: string;
   title: string;
 }
@@ -8,8 +9,10 @@ export interface TodoRequestType {
   data: TodoType;
 }
 
-export interface TodoResponseType extends TodoType {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface TodoListResponseType {
+  data: TodoType[];
+}
+
+export interface TodoDetailResponseType {
+  data: TodoType;
 }

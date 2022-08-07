@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 
-import authApi from '@/api/auth';
+import authApi from '@/api/auth.api';
 import StackColumn from '@/components/Common/StackColumn';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';

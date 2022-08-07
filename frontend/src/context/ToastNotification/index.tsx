@@ -9,7 +9,7 @@ interface ToastNotificationProviderProps {
   children: ReactNode;
 }
 
-export default function ToastNotificationProvider({ children }: ToastNotificationProviderProps) {
+const ToastNotificationProvider = ({ children }: ToastNotificationProviderProps) => {
   const [state, notifyDispatch] = useReducer(reducer, initState);
   const states = useMemo(() => ({ ...state }), [state]);
 
@@ -20,15 +20,15 @@ export default function ToastNotificationProvider({ children }: ToastNotificatio
       </ToastNotificationActionContext.Provider>
     </ToastNotificationStateContext.Provider>
   );
-}
+};
 
-export function useToastNotificationState() {
+export const useToastNotificationState = () => {
   const states = useContext(ToastNotificationStateContext);
   if (states === undefined) {
     throw new Error('useCommentsState should be used within CommentProvider');
   }
   return states;
-}
+};
 
 export const useToastNotificationAction = () => {
   const dispatch = useContext(ToastNotificationActionContext);
@@ -39,3 +39,5 @@ export const useToastNotificationAction = () => {
 
   return dispatch;
 };
+
+export default ToastNotificationProvider;
