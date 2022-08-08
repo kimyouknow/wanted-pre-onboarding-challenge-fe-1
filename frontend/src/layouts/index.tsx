@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import { Outlet } from 'react-router-dom';
 
 import GlobalNavigation from '@/components/GlobalNavigation';
@@ -11,6 +10,8 @@ import ToastNotificationProvider, {
 import { deleteMessage } from '@/context/ToastNotification/action';
 import WithProvider from '@/hoc/WithProvider';
 
+import * as S from './style';
+
 const Layouts = () => {
   const { toastList } = useToastNotificationState();
   const notifyDispatch = useToastNotificationAction();
@@ -18,22 +19,11 @@ const Layouts = () => {
     deleteMessage(notifyDispatch, id);
   };
   return (
-    <Container maxWidth="sm">
-      <nav>
-        <GlobalNavigation />
-      </nav>
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          direction: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: '3rem',
-        }}
-      >
+    <S.Container>
+      <GlobalNavigation />
+      <S.Main>
         <Outlet />
-      </Box>
+      </S.Main>
       <ToastNotification
         toastList={toastList}
         col="top"
@@ -42,7 +32,7 @@ const Layouts = () => {
         autoDeleteTime={1000}
         deleteCallback={deleteToastCallback}
       />
-    </Container>
+    </S.Container>
   );
 };
 
