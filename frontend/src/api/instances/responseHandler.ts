@@ -17,7 +17,7 @@ export function errorHandler(error: any) {
     } = error;
     // 서버에서 설정한 커스텀 에러 타입 키값들
     // detaills
-    const hasDetail = data.hasOwnProperty('details');
+    const hasDetail = data && data.hasOwnProperty('details');
 
     if (hasDetail) {
       return Promise.reject(data.details);
