@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import { ROUTE } from '@/constant/route';
 import PrivateRouter from '@/hoc/PrivateRouter';
-import PublicRouter from '@/hoc/PulbickRouter';
+import PublicRouter from '@/hoc/PublicRouter';
 import Layouts from '@/layouts';
 import Login from '@/pages/Login';
 import NotFound from '@/pages/NotFound';
