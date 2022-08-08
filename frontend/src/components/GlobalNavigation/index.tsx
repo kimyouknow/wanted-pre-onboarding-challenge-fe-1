@@ -1,39 +1,34 @@
-import { Tab, Tabs } from '@mui/material';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ROUTE } from '@/constant/route';
+import { checkIsLogin, logout } from '@/service/handleLogin';
+
+import * as S from './style';
 
 const GlobalNavigation = () => {
-  const path = window.location.pathname;
-  const currentTab = ROUTER_INDEX[path];
-  const [activeTabIndex, setActiveTabIndex] = useState(currentTab);
-  const handleActiveTab = (event: React.SyntheticEvent<Element, Event>, newValue: number) => {
-    setActiveTabIndex(newValue);
-  };
+  const isLogin = checkIsLogin();
 
   return (
-    <ul>
-      <Tabs
-        value={activeTabIndex}
-        onChange={handleActiveTab}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="메인" to={ROUTE.TODO} component={Link} />
-        <Tab label="로그인" to={ROUTE.LOGIN} component={Link} />
-        <Tab label="회원가입" to={ROUTE.SIGNUP} component={Link} />
-      </Tabs>
-    </ul>
+    <S.Container>
+      <li>
+        <Link to={ROUTE.TODO}>메인</Link>
+      </li>
+      {isLogin ? (
+        <>
+          <li onClick={logout}>로그아웃</li>
+        </>
+      ) : (
+        <>
+          <li>
+            <Link to={ROUTE.LOGIN}>로그인</Link>
+          </li>
+          <li>
+            <Link to={ROUTE.SIGNUP}>회원가입</Link>
+          </li>
+        </>
+      )}
+    </S.Container>
   );
 };
 
 export default GlobalNavigation;
-
-const ROUTER_INDEX = {
-  [ROUTE.MAIN]: 0,
-  [ROUTE.TODO]: 0,
-  [ROUTE.LOGIN]: 1,
-  [ROUTE.SIGNUP]: 2,
-};
