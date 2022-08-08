@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
@@ -101,18 +101,38 @@ const useTodoList = () => {
     getTodoList();
   }, []);
 
+  const states = useMemo(
+    () => ({
+      todoList,
+      isLoading,
+      apiError,
+      targetTodoId,
+      isActivateCreateForm,
+      isActivateEditForm,
+    }),
+    [todoList, isLoading, apiError, targetTodoId, isActivateCreateForm, isActivateEditForm],
+  );
+
+  const actions = useMemo(
+    () => ({
+      changeTargetTodoId,
+      handleClickTodoElement,
+      handleClickActivateCreateFormButton,
+      handleClickActivateEditFormButton,
+      deleteTarget,
+    }),
+    [
+      changeTargetTodoId,
+      handleClickTodoElement,
+      handleClickActivateCreateFormButton,
+      handleClickActivateEditFormButton,
+      deleteTarget,
+    ],
+  );
+
   return {
-    todoList,
-    isLoading,
-    apiError,
-    targetTodoId,
-    isActivateCreateForm,
-    isActivateEditForm,
-    changeTargetTodoId,
-    handleClickTodoElement,
-    handleClickActivateCreateFormButton,
-    handleClickActivateEditFormButton,
-    deleteTarget,
+    states,
+    actions,
   };
 };
 

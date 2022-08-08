@@ -1,4 +1,4 @@
-import { createContext, useMemo, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 
 import useTodoList, { TodoListActionType, TodoListStateType, todoInitState } from './useTodoList';
 
@@ -10,48 +10,7 @@ interface TodoListProviderProps {
 }
 
 const TodoListProvider = ({ children }: TodoListProviderProps) => {
-  const {
-    todoList,
-    targetTodoId,
-    isLoading,
-    apiError,
-    isActivateCreateForm,
-    isActivateEditForm,
-    changeTargetTodoId,
-    handleClickTodoElement,
-    handleClickActivateCreateFormButton,
-    handleClickActivateEditFormButton,
-    deleteTarget,
-  } = useTodoList();
-
-  const states = useMemo(
-    () => ({
-      todoList,
-      isLoading,
-      apiError,
-      targetTodoId,
-      isActivateCreateForm,
-      isActivateEditForm,
-    }),
-    [todoList, isLoading, apiError, targetTodoId, isActivateCreateForm, isActivateEditForm],
-  );
-
-  const actions = useMemo(
-    () => ({
-      changeTargetTodoId,
-      handleClickTodoElement,
-      handleClickActivateCreateFormButton,
-      handleClickActivateEditFormButton,
-      deleteTarget,
-    }),
-    [
-      changeTargetTodoId,
-      handleClickTodoElement,
-      handleClickActivateCreateFormButton,
-      handleClickActivateEditFormButton,
-      deleteTarget,
-    ],
-  );
+  const { states, actions } = useTodoList();
 
   return (
     <ToastNotificationStateContext.Provider value={states}>
