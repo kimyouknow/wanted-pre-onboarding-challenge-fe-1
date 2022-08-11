@@ -24,6 +24,7 @@ export type TodoListActionType = {
   handleClickActivateEditFormButton: () => void;
   deleteTarget: (targetId: string) => void;
   createTodo: (submitData: TodoInfoType) => Promise<void>;
+  editTodo: (submitData: TodoInfoType) => Promise<void>;
 };
 
 export const todoInitState = {
@@ -63,9 +64,9 @@ const useTodoList = () => {
     setTargetTodoId(targetId);
   };
 
-  const handleClickTodoElement = (todoId: string) => {
-    changeTargetTodoId(todoId);
-    navigate(`${ROUTE.TODO}/${todoId}`);
+  const handleClickTodoElement = (targetId: string) => {
+    changeTargetTodoId(targetId);
+    navigate(`${ROUTE.TODO}/${targetId}`);
   };
 
   const deleteTarget = async (targetId: string) => {
@@ -111,6 +112,18 @@ const useTodoList = () => {
     }
   };
 
+  const editTodo = async (submitData: TodoInfoType) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
+    try {
+      const response = await todoApi.editTodo({ id: targetTodoId, data: submitData });
+      notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
+    } catch (error: any) {
+      console.error(error);
+      notifyNewMessage(notifyDispatch, error, 'Error');
+    }
+  };
+
   useEffect(() => {
     getTodoList();
   }, []);
@@ -135,6 +148,7 @@ const useTodoList = () => {
       handleClickActivateEditFormButton,
       deleteTarget,
       createTodo,
+      editTodo,
     }),
     [
       changeTargetTodoId,
@@ -143,6 +157,7 @@ const useTodoList = () => {
       handleClickActivateEditFormButton,
       deleteTarget,
       createTodo,
+      editTodo,
     ],
   );
 
