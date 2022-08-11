@@ -6,7 +6,7 @@ import todoApi from '@/api/todo.api';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
-import { TodoListResponseType, TodoType } from '@/types/todo.type';
+import { TodoInfoType, TodoListResponseType, TodoType } from '@/types/todo.type';
 
 export type TodoListStateType = {
   todoList: TodoType[];
@@ -23,6 +23,7 @@ export type TodoListActionType = {
   handleClickActivateCreateFormButton: () => void;
   handleClickActivateEditFormButton: () => void;
   deleteTarget: (targetId: string) => void;
+  createTodo: (submitData: TodoInfoType) => Promise<void>;
 };
 
 export const todoInitState = {
@@ -97,6 +98,19 @@ const useTodoList = () => {
     }
   };
 
+  const createTodo = async (submitData: TodoInfoType) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
+    try {
+      const response = await todoApi.createTodo(submitData);
+      console.log(response);
+      notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
+    } catch (error) {
+      console.error(error);
+      notifyNewMessage(notifyDispatch, '작성 과정에서 에러가 발생했습니다', 'Error');
+    }
+  };
+
   useEffect(() => {
     getTodoList();
   }, []);
@@ -120,6 +134,7 @@ const useTodoList = () => {
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
       deleteTarget,
+      createTodo,
     }),
     [
       changeTargetTodoId,
@@ -127,6 +142,7 @@ const useTodoList = () => {
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
       deleteTarget,
+      createTodo,
     ],
   );
 
