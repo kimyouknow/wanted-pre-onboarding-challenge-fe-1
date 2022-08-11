@@ -12,9 +12,9 @@ const GlobalNavigation = () => {
 
   return (
     <S.Container>
-      <LinkButton to={ROUTE.TODO}>메인</LinkButton>
       {isLogin ? (
         <>
+          <LinkButton to={ROUTE.TODO}>메인</LinkButton>
           <li onClick={logout}>로그아웃</li>
         </>
       ) : (
