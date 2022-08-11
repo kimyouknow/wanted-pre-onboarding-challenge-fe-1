@@ -6,12 +6,11 @@ import todoApi from '@/api/todo.api';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
+import useGetFetch, { ApiState } from '@/hooks/useGetFecth';
 import { TodoInfoType, TodoListResponseType, TodoType } from '@/types/todo.type';
 
 export type TodoListStateType = {
-  todoList: TodoType[];
-  isLoading: boolean;
-  apiError: { isError: boolean; msg: string };
+  apiState: ApiState<TodoType[]>;
   targetTodoId: string;
   isActivateCreateForm: boolean;
   isActivateEditForm: boolean;
@@ -28,9 +27,7 @@ export type TodoListActionType = {
 };
 
 export const todoInitState = {
-  todoList: [],
-  isLoading: true,
-  apiError: { isError: false, msg: '' },
+  apiState: { responseData: [], isLoading: true, apiError: { isError: false, msg: '' } },
   targetTodoId: '',
   isActivateCreateForm: false,
   isActivateEditForm: false,
@@ -44,9 +41,10 @@ const useTodoList = () => {
   );
   const [isActivateEditForm, setIsActivateEditForm] = useState(todoInitState.isActivateEditForm);
   const [targetTodoId, setTargetTodoId] = useState<string>(todoInitState.targetTodoId);
-  const [todoList, setTodoList] = useState<TodoType[]>(todoInitState.todoList);
-  const [isLoading, setIsLoading] = useState(todoInitState.isLoading);
-  const [apiError, setApiError] = useState(todoInitState.apiError);
+
+  const { apiState, forceRefetch } = useGetFetch<TodoType[]>({
+    axiosInstance: todoApi.getTodoList,
+  });
 
   const handleClickActivateCreateFormButton = () => {
     setIsActivateCreateForm(prev => !prev);
@@ -69,45 +67,13 @@ const useTodoList = () => {
     navigate(`${ROUTE.TODO}/${targetId}`);
   };
 
-  const deleteTarget = async (targetId: string) => {
-    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
-    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
-    try {
-      await todoApi.deleteTodo(targetId);
-      notifyNewMessage(notifyDispatch, '삭제 성공!', 'Success');
-    } catch (error) {
-      console.error(error);
-      notifyNewMessage(notifyDispatch, '삭제 과정에서 에러가 발생했습니다', 'Error');
-    }
-  };
-
-  const getTodoList = async () => {
-    setIsLoading(true);
-    try {
-      const response: AxiosResponse<TodoListResponseType> = await todoApi.getTodoList();
-      // TODO: 데이터 파싱 interceptor에서 하는 걸로 수정하기
-      setTodoList(response.data.data);
-    } catch (error: any) {
-      console.error(error);
-      notifyNewMessage(notifyDispatch, error, 'Error');
-      setApiError({
-        isError: true,
-        msg: '데이터 요청 중에 에러 발생',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const createTodo = async (submitData: TodoInfoType) => {
     // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
     notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
-      const response = await todoApi.createTodo(submitData);
-      console.log(response);
+      await todoApi.createTodo(submitData);
       notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
     } catch (error) {
-      console.error(error);
       notifyNewMessage(notifyDispatch, '작성 과정에서 에러가 발생했습니다', 'Error');
     }
   };
@@ -116,28 +82,36 @@ const useTodoList = () => {
     // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
     notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
-      const response = await todoApi.editTodo({ id: targetTodoId, data: submitData });
+      await todoApi.editTodo({ id: targetTodoId, data: submitData });
       notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
     } catch (error: any) {
-      console.error(error);
       notifyNewMessage(notifyDispatch, error, 'Error');
     }
   };
 
-  useEffect(() => {
-    getTodoList();
-  }, []);
+  const deleteTarget = async (targetId: string) => {
+    // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
+    notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
+    try {
+      await todoApi.deleteTodo(targetId);
+      notifyNewMessage(notifyDispatch, '삭제 성공!', 'Success');
+    } catch (error) {
+      notifyNewMessage(notifyDispatch, '삭제 과정에서 에러가 발생했습니다', 'Error');
+    }
+  };
+
+  // useEffect(() => {
+  //   getTodoList();
+  // }, []);
 
   const states = useMemo(
     () => ({
-      todoList,
-      isLoading,
-      apiError,
+      apiState,
       targetTodoId,
       isActivateCreateForm,
       isActivateEditForm,
     }),
-    [todoList, isLoading, apiError, targetTodoId, isActivateCreateForm, isActivateEditForm],
+    [apiState, targetTodoId, isActivateCreateForm, isActivateEditForm],
   );
 
   const actions = useMemo(

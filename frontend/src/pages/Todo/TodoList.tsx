@@ -3,7 +3,9 @@ import { useTodoListProviderState } from '@/context/TodoList';
 import TodoElement from './TodoElement';
 
 const TodoList = () => {
-  const { todoList, isLoading, apiError } = useTodoListProviderState();
+  const {
+    apiState: { responseData: todoList, isLoading, apiError },
+  } = useTodoListProviderState();
 
   if (isLoading) {
     return <div>로딩중...</div>;
@@ -19,7 +21,7 @@ const TodoList = () => {
     );
   }
 
-  if (todoList.length === 0) {
+  if (!todoList || todoList.length === 0) {
     return <div>할 일 목록이 없네요!</div>;
   }
 
