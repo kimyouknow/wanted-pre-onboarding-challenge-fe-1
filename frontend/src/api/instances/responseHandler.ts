@@ -1,9 +1,8 @@
 import { AxiosResponse } from 'axios';
 
 export function successHandler(response: AxiosResponse) {
-  // TODO: response 커스텀 타입
-  // const { data } = response;
-  return response;
+  const { data } = response;
+  return data;
 }
 
 // TODO: error 타입 찾아보기
