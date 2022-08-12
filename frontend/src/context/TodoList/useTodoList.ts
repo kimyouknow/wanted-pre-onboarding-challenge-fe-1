@@ -2,16 +2,14 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
-import { API } from '@/constant/api';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
-import useGetFetch, { ApiState } from '@/hooks/useGetFecth';
-import { TodoDetailResponseType, TodoInfoType, TodoListResponseType } from '@/types/todo.type';
+import { TodoInfoType, TodoType } from '@/types/todo.type';
 
 export type TodoListStateType = {
-  todoListApiState: ApiState<TodoListResponseType>;
-  todoDetailApiState: ApiState<TodoDetailResponseType>;
+  todoList: TodoType[];
+  todoDetailInfo: TodoType | null;
   targetTodoId: string;
   isActivateCreateForm: boolean;
   isActivateEditForm: boolean;
@@ -28,12 +26,8 @@ export type TodoListActionType = {
 };
 
 export const todoInitState = {
-  todoListApiState: { responseData: null, isLoading: true, apiError: { isError: false, msg: '' } },
-  todoDetailApiState: {
-    responseData: null,
-    isLoading: true,
-    apiError: { isError: false, msg: '' },
-  },
+  todoList: [],
+  todoDetailInfo: null,
   targetTodoId: '',
   isActivateCreateForm: false,
   isActivateEditForm: false,
@@ -45,20 +39,10 @@ const useTodoList = () => {
   const [isActivateCreateForm, setIsActivateCreateForm] = useState(
     todoInitState.isActivateCreateForm,
   );
+  const [todoList, setTodoList] = useState([]);
+  const [todoDetailInfo, setTodoDetailInfo] = useState(null);
   const [isActivateEditForm, setIsActivateEditForm] = useState(todoInitState.isActivateEditForm);
   const [targetTodoId, setTargetTodoId] = useState<string>(todoInitState.targetTodoId);
-
-  const { apiState: todoListApiState } = useGetFetch<TodoListResponseType>({
-    axiosInstance: todoApi.getTodoList,
-  });
-
-  const { todoId } = useParams();
-
-  const { apiState: todoDetailApiState } = useGetFetch<TodoDetailResponseType>({
-    axiosInstance: todoApi.getTodoDetail,
-    axiosConfig: { url: `${API.TODOS}/${todoId}` },
-    immediate: !!todoId,
-  });
 
   const handleClickActivateCreateFormButton = () => {
     setIsActivateCreateForm(prev => !prev);
@@ -116,13 +100,13 @@ const useTodoList = () => {
 
   const states = useMemo(
     () => ({
-      todoListApiState,
-      todoDetailApiState,
+      todoList,
+      todoDetailInfo,
       targetTodoId,
       isActivateCreateForm,
       isActivateEditForm,
     }),
-    [todoListApiState, todoDetailApiState, targetTodoId, isActivateCreateForm, isActivateEditForm],
+    [todoList, todoDetailInfo, targetTodoId, isActivateCreateForm, isActivateEditForm],
   );
 
   const actions = useMemo(

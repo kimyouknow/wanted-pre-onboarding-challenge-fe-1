@@ -5,10 +5,7 @@ import { useTodoListProviderAction, useTodoListProviderState } from '@/context/T
 import EditTodoForm from '@/pages/Todo/Form/Edit.TodoForm';
 
 const TodoDetail = () => {
-  const {
-    isActivateEditForm,
-    todoDetailApiState: { responseData: todoInfo, isLoading, apiError },
-  } = useTodoListProviderState();
+  const { isActivateEditForm, todoDetailInfo } = useTodoListProviderState();
   const { handleClickActivateEditFormButton, deleteTarget } = useTodoListProviderAction();
 
   // TODO: todoId 상수로 처리하기
@@ -20,31 +17,32 @@ const TodoDetail = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>로딩중...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로딩중...</div>;
+  // }
 
-  if (apiError.isError) {
-    return (
-      <div>
-        <p>{apiError.msg}</p>
-        <button onClick={() => {}}>다시 요청</button>
-      </div>
-    );
-  }
+  // if (apiError.isError) {
+  //   return (
+  //     <div>
+  //       <p>{apiError.msg}</p>
+  //       <button onClick={() => {}}>다시 요청</button>
+  //     </div>
+  //   );
+  // }
 
-  if (!todoInfo || !todoId) {
+  if (!todoDetailInfo || !todoId) {
     return <div>보여줄 데이터가 없어요</div>;
   }
 
-  const { title, content } = todoInfo.data;
+  // const { title, content } = todoInfo.data;
+  const { title, content, id } = todoDetailInfo;
 
   return (
     <div>
       <h2>할 일 상세 정보</h2>
       {isActivateEditForm ? (
         <>
-          <EditTodoForm id={todoId} title={title} content={content} />
+          <EditTodoForm id={id} title={title} content={content} />
           <Button variant="contained" onClick={handleClickActivateEditFormButton}>
             취소
           </Button>
