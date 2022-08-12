@@ -7,7 +7,7 @@ const ERROR_TYPE = 'ERROR';
 const RESET_TYPE = 'RESET';
 
 interface UseGetFetchProps<T> {
-  axiosInstance: (newConfig: AxiosRequestConfig) => AxiosPromise<T>;
+  axiosInstance: (params: any) => AxiosPromise<T>;
   axiosConfig?: AxiosRequestConfig;
   immediate?: boolean;
 }
@@ -27,7 +27,7 @@ interface ReturnState<T> {
 type Action<T> =
   | { type: 'LOADING' }
   | { type: 'SUCCESS'; payload: T }
-  | { type: 'ERROR'; payload: Error }
+  | { type: 'ERROR'; payload: string }
   | { type: 'RESET' };
 
 const useGetFetch = <T>({
@@ -52,7 +52,7 @@ const useGetFetch = <T>({
         return {
           isLoading: false,
           responseData: null,
-          apiError: { isError: true, msg: action.payload.message },
+          apiError: { isError: true, msg: action.payload },
         };
       case RESET_TYPE:
         return {
@@ -99,7 +99,6 @@ const useGetFetch = <T>({
   };
 
   useEffect(() => {
-    resetState();
     if (immediate) {
       execution({});
     }
@@ -108,7 +107,7 @@ const useGetFetch = <T>({
         controller.abort();
       }
     };
-  }, [trigger]);
+  }, []);
 
   return { apiState, execution, forceRefetch };
 };
