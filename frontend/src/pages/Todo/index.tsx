@@ -24,7 +24,7 @@ const Todo = () => {
       <S.TodoList>
         <TodoList />
         <Routes>
-          <Route path="/:todoId/" element={<TodoDetail />} />
+          <Route path=":todoId" element={<TodoDetail />} />
         </Routes>
       </S.TodoList>
     </S.Container>

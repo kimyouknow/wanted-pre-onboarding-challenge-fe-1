@@ -7,12 +7,7 @@ import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
 import useGetFetch, { ApiState } from '@/hooks/useGetFecth';
-import {
-  TodoDetailResponseType,
-  TodoInfoType,
-  TodoListResponseType,
-  TodoType,
-} from '@/types/todo.type';
+import { TodoDetailResponseType, TodoInfoType, TodoListResponseType } from '@/types/todo.type';
 
 export type TodoListStateType = {
   todoListApiState: ApiState<TodoListResponseType>;
@@ -57,7 +52,7 @@ const useTodoList = () => {
     axiosInstance: todoApi.getTodoList,
   });
 
-  const { targetId: todoId } = useParams();
+  const { todoId } = useParams();
 
   const { apiState: todoDetailApiState } = useGetFetch<TodoDetailResponseType>({
     axiosInstance: todoApi.getTodoDetail,
@@ -118,10 +113,6 @@ const useTodoList = () => {
       notifyNewMessage(notifyDispatch, '삭제 과정에서 에러가 발생했습니다', 'Error');
     }
   };
-
-  // useEffect(() => {
-  //   getTodoList();
-  // }, []);
 
   const states = useMemo(
     () => ({
