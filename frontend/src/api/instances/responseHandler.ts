@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 
 export function successHandler(response: AxiosResponse) {
-  const { data } = response;
-  return data;
+  // const { data } = response;
+  return response;
 }
 
 // TODO: error 타입 찾아보기
@@ -16,12 +16,12 @@ export function errorHandler(error: any) {
     } = error;
     // 서버에서 설정한 커스텀 에러 타입 키값들
     // detaills
-    const hasDetail = data.hasOwnProperty('details');
+    const hasDetail = data && data.hasOwnProperty('details');
     if (hasDetail) {
       return Promise.reject(data.details);
     }
 
-    const hasMessage = data.hasOwnProperty('message');
+    const hasMessage = data && data.hasOwnProperty('message');
     if (hasMessage) {
       return Promise.reject(data.message);
     }

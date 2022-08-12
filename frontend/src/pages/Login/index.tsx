@@ -22,6 +22,7 @@ const Login = () => {
     try {
       const response = await authApi.login({ data: submitData });
       const { message, token } = response.data;
+
       // TODO: serivce 로직으로 분리
       handleLocalStorage.set(ACCESS_TOKEN, token);
       notifyNewMessage(notifyDispatch, message, 'Success');
@@ -71,7 +72,7 @@ const Login = () => {
           helperText={validateError.password}
         />
         <Button type="submit" variant="contained" disabled={!satisfyAllValidites}>
-          회원가입
+          로그인
         </Button>
       </StackColumn>
     </Box>
