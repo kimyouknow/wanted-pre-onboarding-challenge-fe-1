@@ -1,55 +1,24 @@
 import { Button } from '@mui/material';
-import { AxiosResponse } from 'axios';
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import todoApi from '@/api/todo.api';
-import { useToastNotificationAction } from '@/context/ToastNotification';
-import { notifyNewMessage } from '@/context/ToastNotification/action';
 import { useTodoListProviderAction, useTodoListProviderState } from '@/context/TodoList';
 import EditTodoForm from '@/pages/Todo/Form/Edit.TodoForm';
-import { TodoDetailResponseType, TodoType } from '@/types/todo.type';
 
 const TodoDetail = () => {
-  const notifyDispatch = useToastNotificationAction();
-  const { isActivateEditForm } = useTodoListProviderState();
+  const {
+    isActivateEditForm,
+    todoDetailApiState: { responseData: todoInfo, isLoading, apiError },
+  } = useTodoListProviderState();
   const { handleClickActivateEditFormButton, deleteTarget } = useTodoListProviderAction();
 
   // TODO: todoId 상수로 처리하기
   const { todoId } = useParams();
-  const [todoInfo, setTodoInfo] = useState<TodoType | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [apiError, setApiError] = useState({ isError: false, msg: '' });
 
   const handleClickDeleteButton = () => {
     if (todoId) {
       deleteTarget(todoId);
     }
   };
-
-  const getTodoDetail = async (id: string) => {
-    setIsLoading(true);
-    try {
-      const response: AxiosResponse<TodoDetailResponseType> = await todoApi.getTodoDetail(id);
-      // TODO: 데이터 파싱 interceptor에서 하는 걸로 수정하기
-      setTodoInfo(response.data.data);
-    } catch (error: any) {
-      console.error(error);
-      notifyNewMessage(notifyDispatch, error, 'Error');
-      setApiError({
-        isError: true,
-        msg: '데이터 요청 중에 에러 발생',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (todoId) {
-      getTodoDetail(todoId);
-    }
-  }, []);
 
   if (isLoading) {
     return <div>로딩중...</div>;
@@ -58,8 +27,7 @@ const TodoDetail = () => {
   if (apiError.isError) {
     return (
       <div>
-        <h3>{apiError.msg}</h3>
-        {/* TODO: 에러 발생시 다시 요청하는 로직  */}
+        <p>{apiError.msg}</p>
         <button onClick={() => {}}>다시 요청</button>
       </div>
     );
@@ -69,7 +37,7 @@ const TodoDetail = () => {
     return <div>보여줄 데이터가 없어요</div>;
   }
 
-  const { title, content } = todoInfo;
+  const { title, content } = todoInfo.data;
 
   return (
     <div>

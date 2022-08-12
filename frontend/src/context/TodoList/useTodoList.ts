@@ -1,16 +1,22 @@
-import { AxiosResponse } from 'axios';
-import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
+import { API } from '@/constant/api';
 import { ROUTE } from '@/constant/route';
 import { useToastNotificationAction } from '@/context/ToastNotification';
 import { notifyNewMessage } from '@/context/ToastNotification/action';
 import useGetFetch, { ApiState } from '@/hooks/useGetFecth';
-import { TodoInfoType, TodoListResponseType, TodoType } from '@/types/todo.type';
+import {
+  TodoDetailResponseType,
+  TodoInfoType,
+  TodoListResponseType,
+  TodoType,
+} from '@/types/todo.type';
 
 export type TodoListStateType = {
-  apiState: ApiState<TodoType[]>;
+  todoListApiState: ApiState<TodoListResponseType>;
+  todoDetailApiState: ApiState<TodoDetailResponseType>;
   targetTodoId: string;
   isActivateCreateForm: boolean;
   isActivateEditForm: boolean;
@@ -27,7 +33,12 @@ export type TodoListActionType = {
 };
 
 export const todoInitState = {
-  apiState: { responseData: [], isLoading: true, apiError: { isError: false, msg: '' } },
+  todoListApiState: { responseData: null, isLoading: true, apiError: { isError: false, msg: '' } },
+  todoDetailApiState: {
+    responseData: null,
+    isLoading: true,
+    apiError: { isError: false, msg: '' },
+  },
   targetTodoId: '',
   isActivateCreateForm: false,
   isActivateEditForm: false,
@@ -42,8 +53,16 @@ const useTodoList = () => {
   const [isActivateEditForm, setIsActivateEditForm] = useState(todoInitState.isActivateEditForm);
   const [targetTodoId, setTargetTodoId] = useState<string>(todoInitState.targetTodoId);
 
-  const { apiState, forceRefetch } = useGetFetch<TodoType[]>({
+  const { apiState: todoListApiState } = useGetFetch<TodoListResponseType>({
     axiosInstance: todoApi.getTodoList,
+  });
+
+  const { targetId: todoId } = useParams();
+
+  const { apiState: todoDetailApiState } = useGetFetch<TodoDetailResponseType>({
+    axiosInstance: todoApi.getTodoDetail,
+    axiosConfig: { url: `${API.TODOS}/${todoId}` },
+    immediate: !!todoId,
   });
 
   const handleClickActivateCreateFormButton = () => {
@@ -71,7 +90,7 @@ const useTodoList = () => {
     // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
     notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
-      await todoApi.createTodo(submitData);
+      await todoApi.createTodo({ data: submitData });
       notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
     } catch (error) {
       notifyNewMessage(notifyDispatch, '작성 과정에서 에러가 발생했습니다', 'Error');
@@ -82,7 +101,7 @@ const useTodoList = () => {
     // TODO: 1초가 넘으면 처리중입니다 메세지 보여지게 수정
     notifyNewMessage(notifyDispatch, '처리 중입니다...', 'Info');
     try {
-      await todoApi.editTodo({ id: targetTodoId, data: submitData });
+      await todoApi.editTodo(targetTodoId, { data: submitData });
       notifyNewMessage(notifyDispatch, '작성 성공', 'Success');
     } catch (error: any) {
       notifyNewMessage(notifyDispatch, error, 'Error');
@@ -106,12 +125,13 @@ const useTodoList = () => {
 
   const states = useMemo(
     () => ({
-      apiState,
+      todoListApiState,
+      todoDetailApiState,
       targetTodoId,
       isActivateCreateForm,
       isActivateEditForm,
     }),
-    [apiState, targetTodoId, isActivateCreateForm, isActivateEditForm],
+    [todoListApiState, todoDetailApiState, targetTodoId, isActivateCreateForm, isActivateEditForm],
   );
 
   const actions = useMemo(

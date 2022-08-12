@@ -4,7 +4,7 @@ import TodoElement from './TodoElement';
 
 const TodoList = () => {
   const {
-    apiState: { responseData: todoList, isLoading, apiError },
+    todoListApiState: { responseData, isLoading, apiError },
   } = useTodoListProviderState();
 
   if (isLoading) {
@@ -20,6 +20,8 @@ const TodoList = () => {
       </div>
     );
   }
+
+  const todoList = responseData?.data;
 
   if (!todoList || todoList.length === 0) {
     return <div>할 일 목록이 없네요!</div>;

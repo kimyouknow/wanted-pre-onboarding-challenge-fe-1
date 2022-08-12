@@ -15,7 +15,7 @@ const App = () => {
       <Routes>
         <Route path={ROUTE.MAIN} element={<Layouts />}>
           <Route index element={<Navigate to={ROUTE.TODO} replace />} />
-          <Route path={ROUTE.TODO + '*'} element={<PrivateRouter Component={Todo} />} />
+          <Route path={ROUTE.TODO + '/*'} element={<PrivateRouter Component={Todo} />} />
           <Route path={ROUTE.LOGIN} element={<PublicRouter Component={Login} restricted />} />
           <Route path={ROUTE.SIGNUP} element={<PublicRouter Component={SignUp} restricted />} />
         </Route>
