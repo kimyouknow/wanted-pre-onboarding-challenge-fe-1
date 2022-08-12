@@ -1,39 +1,43 @@
 import apiInstance from '@/api/instances/api.Instance';
 import { API } from '@/constant/api';
-import { TodoInfoType, TodoRequestType } from '@/types/todo.type';
+import { TodoApiType } from '@/types/api.types';
 
 // TODO: 파라미터 및 body로 넘겨줄 인자 설정하기
-const todoApi = {
-  getTodoList() {
+const todoApi: TodoApiType = {
+  getTodoList(config) {
     return apiInstance({
       url: API.TODOS,
       method: 'get',
+      ...config,
     });
   },
-  getTodoDetail(id: string) {
+  // FIXME: 통일성있게 바꾸기
+  getTodoDetail(id, config) {
     return apiInstance({
       url: `${API.TODOS}/${id}`,
       method: 'get',
+      ...config,
     });
   },
-  createTodo(data: TodoInfoType) {
+  createTodo(config) {
     return apiInstance({
       url: API.TODOS,
       method: 'post',
-      data,
+      ...config,
     });
   },
-  editTodo({ id, data }: TodoRequestType) {
+  editTodo(id, config) {
     return apiInstance({
       url: `${API.TODOS}/${id}`,
       method: 'put',
-      data,
+      ...config,
     });
   },
-  deleteTodo(id: string) {
+  deleteTodo(id, config) {
     return apiInstance({
       url: `${API.TODOS}/${id}`,
       method: 'delete',
+      ...config,
     });
   },
 };
