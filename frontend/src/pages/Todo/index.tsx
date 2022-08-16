@@ -14,16 +14,16 @@ import { TodoListResponseType } from '@/types/todo.type';
 
 import * as S from './style';
 import TodoDetail from './TodoDetail';
-import TodoList, { TodoListProps } from './TodoList';
+import TodoListView, { TodoListViewProps } from './TodoList.view';
 
 const Todo = () => {
   const { isActivateCreateForm } = useTodoListProviderState();
-  const { updateAllTodoList, handleClickActivateCreateFormButton } = useTodoListProviderAction();
+  const { handleClickActivateCreateFormButton } = useTodoListProviderAction();
   const { apiState, execution, forceRefetch } = useFetch({ axiosInstance: todoApi.getTodoList });
-  const TodoListWithLoading = WithLoading<TodoListProps, TodoListResponseType>({
+  const TodoListWithLoading = WithLoading<TodoListViewProps, TodoListResponseType>({
     apiState,
     execution,
-    Component: TodoList,
+    Component: TodoListView,
   });
   return (
     <S.Container>

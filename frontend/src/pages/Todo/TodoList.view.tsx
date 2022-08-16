@@ -3,13 +3,13 @@ import { TodoType } from '@/types/todo.type';
 
 import TodoElement from './TodoElement';
 
-export interface TodoListProps {
+export interface TodoListViewProps {
   responseData?: {
     data: TodoType[];
   };
 }
 
-const TodoList = ({ responseData }: TodoListProps) => {
+const TodoListView = ({ responseData }: TodoListViewProps) => {
   const { updateAllTodoList } = useTodoListProviderAction();
   const todoList = responseData?.data;
 
@@ -30,4 +30,4 @@ const TodoList = ({ responseData }: TodoListProps) => {
   );
 };
 
-export default TodoList;
+export default TodoListView;
