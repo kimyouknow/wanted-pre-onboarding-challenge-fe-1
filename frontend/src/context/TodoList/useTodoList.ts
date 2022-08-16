@@ -20,6 +20,7 @@ export type TodoListActionType = {
   handleClickTodoElement: (targetId: string) => void;
   handleClickActivateCreateFormButton: () => void;
   handleClickActivateEditFormButton: () => void;
+  updateAllTodoList: (todoList: TodoType[]) => void;
   deleteTarget: (targetId: string) => void;
   createTodo: (submitData: TodoInfoType) => Promise<void>;
   editTodo: (submitData: TodoInfoType) => Promise<void>;
@@ -39,10 +40,14 @@ const useTodoList = () => {
   const [isActivateCreateForm, setIsActivateCreateForm] = useState(
     todoInitState.isActivateCreateForm,
   );
-  const [todoList, setTodoList] = useState([]);
-  const [todoDetailInfo, setTodoDetailInfo] = useState(null);
+  const [todoList, setTodoList] = useState<TodoType[]>(todoInitState.todoList);
+  const [todoDetailInfo, setTodoDetailInfo] = useState(todoInitState.todoDetailInfo);
   const [isActivateEditForm, setIsActivateEditForm] = useState(todoInitState.isActivateEditForm);
   const [targetTodoId, setTargetTodoId] = useState<string>(todoInitState.targetTodoId);
+
+  const updateAllTodoList = (newTodoList: TodoType[]) => {
+    setTodoList(newTodoList);
+  };
 
   const handleClickActivateCreateFormButton = () => {
     setIsActivateCreateForm(prev => !prev);
@@ -115,6 +120,7 @@ const useTodoList = () => {
       handleClickTodoElement,
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
+      updateAllTodoList,
       deleteTarget,
       createTodo,
       editTodo,
@@ -124,6 +130,7 @@ const useTodoList = () => {
       handleClickTodoElement,
       handleClickActivateCreateFormButton,
       handleClickActivateEditFormButton,
+      updateAllTodoList,
       deleteTarget,
       createTodo,
       editTodo,

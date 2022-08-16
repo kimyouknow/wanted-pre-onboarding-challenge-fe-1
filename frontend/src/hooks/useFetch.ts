@@ -6,7 +6,7 @@ const SUCCESS_TYPE = 'SUCCESS';
 const ERROR_TYPE = 'ERROR';
 const RESET_TYPE = 'RESET';
 
-interface UseGetFetchProps<T> {
+interface UseFetchProps<T> {
   axiosInstance: (params: any) => AxiosPromise<T>;
   axiosConfig?: AxiosRequestConfig;
   immediate?: boolean;
@@ -30,11 +30,11 @@ type Action<T> =
   | { type: 'ERROR'; payload: string }
   | { type: 'RESET' };
 
-const useGetFetch = <T>({
+const useFetch = <T>({
   axiosInstance,
   axiosConfig,
   immediate = true,
-}: UseGetFetchProps<T>): ReturnState<T> => {
+}: UseFetchProps<T>): ReturnState<T> => {
   const reducer = (state: ApiState<T>, action: Action<T>): ApiState<T> => {
     switch (action.type) {
       case LOADING_TYPE:
@@ -113,4 +113,4 @@ const useGetFetch = <T>({
   return { apiState, execution, forceRefetch };
 };
 
-export default useGetFetch;
+export default useFetch;
