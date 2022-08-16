@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import todoApi from '@/api/todo.api';
@@ -12,10 +13,15 @@ const TodoDetail = () => {
   const { todoId } = useParams();
   const { apiState, execution, forceRefetch } = useFetch({
     axiosInstance: todoApi.getTodoDetail,
-    axiosConfig: {
-      url: `${API.TODOS}/${todoId}`,
-    },
+    immediate: false,
   });
+
+  useEffect(() => {
+    execution({
+      url: `${API.TODOS}/${todoId}`,
+    });
+  }, [todoId]);
+
   const TodoDetailWithLoading = WithLoading<TodoDetailViewProps, TodoDetailResponseType>({
     apiState,
     execution,

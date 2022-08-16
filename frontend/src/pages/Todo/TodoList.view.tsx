@@ -16,7 +16,7 @@ const TodoListView = ({ responseData }: TodoListViewProps) => {
   if (!todoList || todoList.length === 0) {
     return <div>할 일 목록이 없네요!</div>;
   }
-  updateAllTodoList(todoList);
+  // updateAllTodoList(todoList);
 
   return (
     <div>
