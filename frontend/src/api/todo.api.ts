@@ -11,10 +11,9 @@ const todoApi: TodoApiType = {
       ...config,
     });
   },
-  // FIXME: 통일성있게 바꾸기
-  getTodoDetail(id, config) {
+  getTodoDetail(config) {
     return privateApi({
-      url: `${API.TODOS}/${id}`,
+      // url: `${API.TODOS}/${id}`,
       method: 'get',
       ...config,
     });

@@ -1,7 +1,7 @@
 export const todoList = {
   data: [
     {
-      title: 'hi',
+      title: 'hello',
       content: 'hello',
       id: 'z3FGrcRL55qDCFnP4KRtn',
       createdAt: '2022-07-24T14:15:55.537Z',
@@ -9,7 +9,7 @@ export const todoList = {
     },
     {
       title: 'hi',
-      content: 'hello',
+      content: 'hi',
       id: 'z3FGrcRL55qDCFnP4KRaaa',
       createdAt: '2022-07-24T14:15:55.537Z',
       updatedAt: '2022-07-24T14:15:55.537Z',

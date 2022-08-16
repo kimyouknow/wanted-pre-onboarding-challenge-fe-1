@@ -14,7 +14,7 @@ export interface AuthApiType {
 
 export interface TodoApiType {
   getTodoList: (config?: AxiosRequestConfig) => AxiosPromise<TodoListResponseType>;
-  getTodoDetail: (id: string, config?: AxiosRequestConfig) => AxiosPromise<TodoDetailResponseType>;
+  getTodoDetail: (config?: AxiosRequestConfig) => AxiosPromise<TodoDetailResponseType>;
   createTodo: (config?: AxiosRequestConfig) => AxiosPromise<TodoDetailResponseType>;
   editTodo: (id: string, config?: AxiosRequestConfig) => AxiosPromise<TodoDetailResponseType>;
   deleteTodo: (id: string, config?: AxiosRequestConfig) => AxiosPromise<TodoDetailResponseType>;

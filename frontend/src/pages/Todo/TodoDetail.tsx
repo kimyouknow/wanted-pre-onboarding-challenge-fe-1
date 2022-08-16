@@ -16,7 +16,7 @@ const TodoDetail = () => {
       url: `${API.TODOS}/${todoId}`,
     },
   });
-  const TodoListWithLoading = WithLoading<TodoDetailViewProps, TodoDetailResponseType>({
+  const TodoDetailWithLoading = WithLoading<TodoDetailViewProps, TodoDetailResponseType>({
     apiState,
     execution,
     Component: TodoDetailView,
@@ -24,7 +24,7 @@ const TodoDetail = () => {
   return (
     <div>
       <h2>할 일 상세 정보</h2>
-      <TodoListWithLoading />
+      <TodoDetailWithLoading />
     </div>
   );
 };
